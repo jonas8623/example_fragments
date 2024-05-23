@@ -6,10 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.fragments.R
 
 class ChatFragment : Fragment() {
+
+    private lateinit var textMarketplace: TextView
+    private lateinit var editTextName: EditText
+    private lateinit var sendButton: Button
+    private lateinit var textViewResultName: TextView
+    private var category: String? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -19,6 +28,7 @@ class ChatFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("life_cycle", "Fragment onCreate")
+        category = arguments?.getString("category")
     }
 
     override fun onCreateView(
@@ -27,7 +37,24 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.i("life_cycle", "Fragment onCreateView")
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+        val view = inflater.inflate(R.layout.fragment_chat, container, false)
+
+        // Inicialização dos componentes
+        initFragment(view)
+        sendName()
+        return view
+    }
+
+    private fun initFragment(view: View) {
+        textMarketplace = view.findViewById(R.id.textView)
+        editTextName = view.findViewById(R.id.editTextName)
+        sendButton = view.findViewById(R.id.sendButton)
+        textViewResultName = view.findViewById(R.id.textViewResultName)
+        textMarketplace.text = category
+    }
+
+    private fun sendName() = sendButton.setOnClickListener {
+        textViewResultName.text = editTextName.text.toString()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,5 +96,4 @@ class ChatFragment : Fragment() {
         Log.i("life_cycle", "Fragment onDetach")
         super.onDetach()
     }
-
 }

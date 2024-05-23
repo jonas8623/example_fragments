@@ -4,13 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.fragments.fragments.CallFragment
 import com.example.fragments.fragments.ChatFragment
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var buttonChat: Button
+    private lateinit var buttonMarketplace: Button
     private lateinit var buttonCall: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,17 +51,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initActivity() {
-        buttonChat = findViewById(R.id.button_chat)
+        buttonMarketplace = findViewById(R.id.button_marketplace)
         buttonCall = findViewById(R.id.button_call)
     }
 
-    private fun setFragment(fragment: Fragment) {
+    private fun initFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragmentContainerView, fragment)
             .commit()
     }
 
-    private fun getFragmentChat() = buttonChat.setOnClickListener { setFragment(ChatFragment()) }
-    private fun getFragmentCall() = buttonCall.setOnClickListener { setFragment(CallFragment()) }
+    private fun getFragmentChat() = buttonMarketplace.setOnClickListener {
+        val chatFragment = ChatFragment()
+        val bundle = bundleOf("category" to "mercado")
+        chatFragment.arguments = bundle
+        initFragment(chatFragment)
+    }
+    private fun getFragmentCall() = buttonCall.setOnClickListener { initFragment(CallFragment()) }
 }
